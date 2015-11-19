@@ -2,14 +2,19 @@ import java.util.Arrays;
 
 
 public class Kruskal {
-	//???????????????????
-	public int[] edges;
+	//edge object that has a cost, and two int's one being u, the other v
+	public int[][] costMatrix;
+	
+	//temp array
+	int[] cost;
+	public int[] nodes;
 	
 	
 	public void krusAlgo(){
 		
 	}
 	
+	//will be used to select minimum cost edge
 	public void heapSort(int[] array){
 		for(int i = (array.length)/2; i >= 0; i--){
 			heapifiy(array, i, array.length - 1);
@@ -46,9 +51,24 @@ public class Kruskal {
 		}
 	}
 	
-
+	public int find2(int x){
+		int i = x;
+		while(nodes[i] != i)
+			i = nodes[i];
+		
+		return i;
+	}
 	
 	public void merge3(int indexA, int indexB){
-		
+		if(cost[indexA] == cost[indexB]){
+			nodes[indexB] = indexA;
+			cost[indexA] = cost[indexA] + 1;
+		}
+		else if(cost[indexA] > cost[indexB]){
+			nodes[indexB] = indexA;
+		}
+		else{
+			nodes[indexA] = indexB;
+		}
 	}
 }

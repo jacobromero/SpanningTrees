@@ -11,14 +11,22 @@ public class Prim {
 		
 		for(int i = 0; i < near.length - 1; i++){
 			//find closest (based on edge weight to i element and call it 'j'
-			int j = -1; //placeholder
+			int min = -1;
+			for(int j = 0; j < cost.length; j++){
+				
+				if(j != i && near[j] != -1){
+					if(min == -1 || cost[i][j] < cost[min][j])
+						min = j;
+				}
+			}
+//			int j = -1; //placeholder
 			//
-			minCost = minCost + cost[j][near[j]];
-			near[j] = -1;
+			minCost = minCost + cost[min][near[min]];
+			near[min] = -1;
 			
 			for(int k = 0; k < near.length; k++){
-				if(near[k] != 0 && cost[k][near[k]] > cost[k][j])
-					near[k] = j;
+				if(near[k] != 0 && cost[k][near[k]] > cost[k][min])
+					near[k] = min;
 			}
 		}
 	}
