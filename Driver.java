@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -10,13 +11,24 @@ public class Driver {
 	public static void main(String[] args) {
 		int[] a = {1, 210, 5, 20, 200, 49, 2029320, 20010, 10, 13};
 
-		int[][] rand = randomGraph(5, 1f);
+		int[][] rand = randomGraph(9, 0.2f);
 		
-		Prim p = new Prim();
+		Prim p = new Prim(rand);
 		
 		p.cost = rand;
 		
-		p.prim();
+		for(int i = 0; i < rand.length; i++){
+			for(int j = 0; j < rand.length; j++){
+				System.out.print(rand[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
+		ArrayList<Edge> e = p.prim();
+		
+		for(Edge ed : e){
+			System.out.println(ed.u + " connects to " + ed.v);
+		}
 		
 //		for(int i = 0; i < rand.length; i++){
 //			for(int j = 0; j < rand.length; j++){
@@ -25,6 +37,7 @@ public class Driver {
 //			System.out.println();
 //		}
 		
+//		System.out.println(rand[v][u]);
 		
 //		Kruskal k = new Kruskal();
 //		
@@ -48,7 +61,7 @@ public class Driver {
 		//initialize adjacency matrix to specified size with values -1
 		for(int i = 0; i < numNodes; i++)
 			for(int j = 0; j < numNodes; j++)
-				matrix[i][j] = -1;
+				matrix[i][j] = Integer.MAX_VALUE;
 		
 		//create random graph
 		int count = 0;
@@ -60,7 +73,7 @@ public class Driver {
 				else if(count >= con)
 					continue;
 				else{
-					int random = rng.nextInt(9) + 1;
+					int random = rng.nextInt(100) + 1;
 					
 					matrix[i][j] = random;
 					matrix[j][i] = random;
