@@ -6,16 +6,37 @@ public class Kruskal {
 	public int[][] costMatrix;
 	
 	//temp array
-	int[] cost;
 	public int[] nodes;
+	public Edge[] edges;
+	public int [] height;
 	
 	
 	public void krusAlgo(){
+		heapSort(edges);
+		int i = 0;
+		int minCost = 0;
+		
+		int count = 0;
+		while(i < nodes.length && count < edges.length){
+			Edge nextSmallest = edges[count++];
+			
+			int j = find2(nextSmallest.u);
+			int k = find2(nextSmallest.v);
+			
+			if(j != k){
+				i++;
+				
+				//TODO figure out how to use (T(), T())
+				
+				minCost = minCost + nextSmallest.cost;
+				merge3(j,k);
+			}
+		}
 		
 	}
 	
 	//will be used to select minimum cost edge
-	public void heapSort(int[] array){
+	public void heapSort(Edge[] array){
 		for(int i = (array.length)/2; i >= 0; i--){
 			heapifiy(array, i, array.length - 1);
 		}
@@ -23,26 +44,27 @@ public class Kruskal {
 		for(int i = array.length - 1; i > 0; i--){
 			swap(array, i, 0);
 			heapifiy(array, 0, i-1);
-			System.out.println(Arrays.toString(array));
+
+//			System.out.println(Arrays.toString(array));
 		}
 	}
 	
-	private void swap(int[] array, int i, int j) {
-		int tmp = array[j];
+	private void swap(Edge[] array, int i, int j) {
+		Edge tmp = array[j];
 		array[j] = array[i];
 		array[i] = tmp;
 	}
 
-	public void heapifiy(int[] array, int i, int end) {
+	public void heapifiy(Edge[] array, int i, int end) {
 		int leftchild = 2 * (i) + 1;
 		int rightchild = 2 * (i) + 2;
 		
 		int largest = i;
 		
-		if(leftchild <= end && array[leftchild] > array[i])
+		if(leftchild <= end && array[leftchild].cost > array[i].cost)
 			largest = leftchild;
 		
-		if(rightchild <= end && array[rightchild] > array[largest])
+		if(rightchild <= end && array[rightchild].cost > array[largest].cost)
 			largest = rightchild;
 		
 		if(largest != i){
@@ -60,11 +82,11 @@ public class Kruskal {
 	}
 	
 	public void merge3(int indexA, int indexB){
-		if(cost[indexA] == cost[indexB]){
+		if(height[indexA] == height[indexB]){
 			nodes[indexB] = indexA;
-			cost[indexA] = cost[indexA] + 1;
+			height[indexA] = height[indexA] + 1;
 		}
-		else if(cost[indexA] > cost[indexB]){
+		else if(height[indexA] > height[indexB]){
 			nodes[indexB] = indexA;
 		}
 		else{
