@@ -4,31 +4,36 @@ import java.util.Random;
 
 
 public class Driver {
-	//TODO make a function that will generate random graphs
+	static //TODO make a function that will generate random graphs
 	// needs to make n amount of nodes(specified), and e amount of edges
 	//idea: create a node, then add new nodes until n is satisfied each node connects to the first one generated, this is n-1 e, then keep adding edges randomly till e is staisfied.
-	
+	Edge[] e;
 	public static void main(String[] args) {
+		int nodes = 1000;
 		int[] a = {1, 210, 5, 20, 200, 49, 2029320, 20010, 10, 13};
 
-		int[][] rand = randomGraph(9, 0.2f);
+		int[][] rand = randomGraph(nodes, 0.4f);
 		
-		Prim p = new Prim(rand);
+		getEdges(rand);
 		
-		p.cost = rand;
+//		System.out.println(e[1].cost);
 		
-		for(int i = 0; i < rand.length; i++){
-			for(int j = 0; j < rand.length; j++){
-				System.out.print(rand[i][j] + " ");
-			}
-			System.out.println();
-		}
-		
-		ArrayList<Edge> e = p.prim();
-		
-		for(Edge ed : e){
-			System.out.println(ed.u + " connects to " + ed.v);
-		}
+//		Prim p = new Prim(rand);
+//		
+//		p.cost = rand;
+//		
+//		for(int i = 0; i < rand.length; i++){
+//			for(int j = 0; j < rand.length; j++){
+//				System.out.print(rand[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
+//		
+//		ArrayList<Edge> e = p.prim();
+//		
+//		for(Edge ed : e){
+//			System.out.println(ed.u + " connects to " + ed.v);
+//		}
 		
 //		for(int i = 0; i < rand.length; i++){
 //			for(int j = 0; j < rand.length; j++){
@@ -39,8 +44,10 @@ public class Driver {
 		
 //		System.out.println(rand[v][u]);
 		
-//		Kruskal k = new Kruskal();
-//		
+		Kruskal k = new Kruskal(rand, nodes, 0.4f);
+//
+		k.krusAlgo();
+		
 //		k.heapSort(a);
 //		
 //		System.out.println(Arrays.toString(a));
@@ -54,7 +61,7 @@ public class Driver {
 		
 		//find out how many connections we want
 		int con = (int)(maxCon * conRatio);
-		
+		e = new Edge[con];
 		
 		int[][] matrix = new int[numNodes][numNodes];
 		
@@ -84,6 +91,21 @@ public class Driver {
 		}
 		
 		return matrix;
+	}
+	
+	public static void getEdges(int[][] costMatrix){
+		int count = 0;
+		for(int i = 0; i < costMatrix.length; i++){
+			for(int j = i; j < costMatrix.length; j++){
+				if(i == j){
+					continue;
+				}
+				else if(costMatrix[i][j] != Integer.MAX_VALUE){
+					e[count] = new Edge(i, j, costMatrix[i][j]);
+					count++;
+				}
+			}
+		}
 	}
 
 }

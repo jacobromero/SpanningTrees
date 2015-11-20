@@ -10,7 +10,25 @@ public class Kruskal {
 	public Edge[] edges;
 	public int [] height;
 	
-	
+	public Kruskal(int[][] mat, int nodeNum, float f){
+		costMatrix = mat;
+		nodes = new int[nodeNum];
+		height = new int[nodeNum];
+		initNodes();
+		initHeight();
+		
+		//calculate max connections possible
+		int maxCon = (nodeNum * (nodeNum - 1))/2;
+		
+		//find out how many connections we want
+		int con = (int)(maxCon * f);
+		System.out.println(con);
+		edges = new Edge[con];
+		
+		getEdges();
+		
+		
+	}
 	public void krusAlgo(){
 		heapSort(edges);
 		int i = 0;
@@ -27,6 +45,7 @@ public class Kruskal {
 				i++;
 				
 				//TODO figure out how to use (T(), T())
+				System.out.println(j + " connects to " + k);
 				
 				minCost = minCost + nextSmallest.cost;
 				merge3(j,k);
@@ -40,7 +59,7 @@ public class Kruskal {
 		for(int i = (array.length)/2; i >= 0; i--){
 			heapifiy(array, i, array.length - 1);
 		}
-		System.out.println(Arrays.toString(array));
+//		System.out.println(Arrays.toString(array));
 		for(int i = array.length - 1; i > 0; i--){
 			swap(array, i, 0);
 			heapifiy(array, 0, i-1);
@@ -91,6 +110,31 @@ public class Kruskal {
 		}
 		else{
 			nodes[indexA] = indexB;
+		}
+	}
+	
+	public void initHeight(){
+		for(int i = 0; i < height.length; i++)
+			height[i] = 0;
+	}
+	
+	public void initNodes(){
+		for(int i = 0; i < nodes.length; i++)
+			nodes[i] = i;
+	}
+	
+	public void getEdges(){
+		int count = 0;
+		for(int i = 0; i < costMatrix.length; i++){
+			for(int j = i; j < costMatrix.length; j++){
+				if(i == j){
+					continue;
+				}
+				else if(costMatrix[i][j] != Integer.MAX_VALUE){
+					edges[count] = new Edge(i, j, costMatrix[i][j]);
+					count++;
+				}
+			}
 		}
 	}
 }
