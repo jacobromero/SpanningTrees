@@ -9,19 +9,21 @@ public class Driver {
 	//idea: create a node, then add new nodes until n is satisfied each node connects to the first one generated, this is n-1 e, then keep adding edges randomly till e is staisfied.
 	Edge[] e;
 	public static void main(String[] args) {
-		int nodes = 1000;
-		int[] a = {1, 210, 5, 20, 200, 49, 2029320, 20010, 10, 13};
+		int nodes = 20;
+		float connectedRatio = 1f; 
 
-		int[][] rand = randomGraph(nodes, 0.4f);
+		int[][] rand = randomGraph(nodes, connectedRatio);
 		
 		getEdges(rand);
 		
 //		System.out.println(e[1].cost);
 		
-//		Prim p = new Prim(rand);
-//		
-//		p.cost = rand;
-//		
+		Prim p = new Prim(rand);
+		
+		p.cost = rand;
+
+		p.prim();
+		
 //		for(int i = 0; i < rand.length; i++){
 //			for(int j = 0; j < rand.length; j++){
 //				System.out.print(rand[i][j] + " ");
@@ -35,16 +37,20 @@ public class Driver {
 //			System.out.println(ed.u + " connects to " + ed.v);
 //		}
 		
-//		for(int i = 0; i < rand.length; i++){
-//			for(int j = 0; j < rand.length; j++){
-//				System.out.print(rand[i][j] + " ");
-//			}
-//			System.out.println();
-//		}
+		for(int i = 0; i < rand.length; i++){
+			for(int j = 0; j < rand.length; j++){
+				if(rand[i][j] == Integer.MAX_VALUE){
+					System.out.print("_ ");
+				}
+				else
+					System.out.print(rand[i][j] + " ");
+			}
+			System.out.println();
+		}
 		
 //		System.out.println(rand[v][u]);
 		
-		Kruskal k = new Kruskal(rand, nodes, 0.4f);
+		Kruskal k = new Kruskal(rand, nodes, connectedRatio);
 //
 		k.krusAlgo();
 		
