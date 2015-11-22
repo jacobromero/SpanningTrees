@@ -9,4 +9,10 @@ public class Edge {
 		this.u = u;
 		this.v = v;
 	}
+	
+	public Edge(int u, int v, int cost){
+		this.u = u;
+		this.v = v;
+		this.cost = cost;
+	}
 }
