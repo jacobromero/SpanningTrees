@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 
@@ -9,33 +8,12 @@ public class Driver {
 	//idea: create a node, then add new nodes until n is satisfied each node connects to the first one generated, this is n-1 e, then keep adding edges randomly till e is staisfied.
 	Edge[] e;
 	public static void main(String[] args) {
-		int nodes = 20;
-		float connectedRatio = 1f; 
+		int nodes = 5;
+		float connectedRatio = 0.2f; 
 
 		int[][] rand = randomGraph(nodes, connectedRatio);
 		
 		getEdges(rand);
-		
-//		System.out.println(e[1].cost);
-		
-		Prim p = new Prim(rand);
-		
-		p.cost = rand;
-
-		p.prim();
-		
-//		for(int i = 0; i < rand.length; i++){
-//			for(int j = 0; j < rand.length; j++){
-//				System.out.print(rand[i][j] + " ");
-//			}
-//			System.out.println();
-//		}
-//		
-//		ArrayList<Edge> e = p.prim();
-//		
-//		for(Edge ed : e){
-//			System.out.println(ed.u + " connects to " + ed.v);
-//		}
 		
 		for(int i = 0; i < rand.length; i++){
 			for(int j = 0; j < rand.length; j++){
@@ -48,15 +26,13 @@ public class Driver {
 			System.out.println();
 		}
 		
-//		System.out.println(rand[v][u]);
+		Prim p = new Prim(rand);
+		p.prim();
 		
+		
+
 		Kruskal k = new Kruskal(rand, nodes, connectedRatio);
-//
 		k.krusAlgo();
-		
-//		k.heapSort(a);
-//		
-//		System.out.println(Arrays.toString(a));
 	}
 	
 	public static int[][] randomGraph(int numNodes, float conRatio){
